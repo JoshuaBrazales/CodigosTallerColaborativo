@@ -1,46 +1,50 @@
-#include "operaciones.h"
-#include "lectura.h"
 #include <stdio.h>
 #include <string.h>
+#include "operaciones.h"
 
-// Definición de los géneros
 const char* generos[MAX_GENEROS] = {"Jazz", "Funk", "Pop", "Reguetón", "Clásico"};
 
-// Implementación de funciones
-
-void mostrarInventario(Inventario inventario[MAX_GENEROS]) {
-    printf("\nEste es el inventario actual:\n");
-    for (int i = 0; i < MAX_GENEROS; i++) {
-        printf("%d. %s\n", i + 1, generos[i]);
-        printf("Vinilos: %d\n", inventario[i].vinilos);
-        printf("CDs: %d\n", inventario[i].cds);
-        printf("Cassettes: %d\n", inventario[i].cassettes);
-    }
-}
-
-void ingresarInventario(Inventario inventario[MAX_GENEROS]) {
-    for (int i = 0; i < MAX_GENEROS; i++) {
-        printf("\nIngrese los datos de %s:\n", generos[i]);
-        
-        inventario[i].vinilos = leerEnteroPositivo("Cantidad de vinilos");
-        inventario[i].cds = leerEnteroPositivo("Cantidad de CDs");
-        inventario[i].cassettes = leerEnteroPositivo("Cantidad de cassettes");
-    }
-}
-
 void modificarInventario(Inventario inventario[MAX_GENEROS]) {
-    int opcion;
-    printf("\nObserve el numero del genero que quiere editar:");
-    scanf("%d", &opcion);
+    char genero[50];
+    int generoIndex = -1;
 
-    if (opcion > 0 && opcion <= MAX_GENEROS) {
-        int generoIndex = opcion - 1;
+    printf("\nIngrese el nombre del género que quiere editar: ");
+    scanf(" %[^\n]s", genero);
 
-        printf("\nAhora estas modificando datos para el género %s:\n", generos[generoIndex]);
-        inventario[generoIndex].vinilos = leerEnteroPositivo("   Cantidad de vinilos (actual)");
-        inventario[generoIndex].cds = leerEnteroPositivo("Cantidad de CDs (actual)");
-        inventario[generoIndex].cassettes = leerEnteroPositivo("Cantidad de cassettes (actual)");
+    for (int i = 0; i < MAX_GENEROS; i++) {
+        if (strcmp(genero, generos[i]) == 0) {
+            generoIndex = i;
+            break;
+        }
+    }
+
+    if (generoIndex != -1) {
+        do {
+            printf("\nAhora estás modificando datos para el género %s:\n", generos[generoIndex]);
+            printf("   Cantidad de vinilos (actual: %d): ", inventario[generoIndex].vinilos);
+            scanf("%d", &inventario[generoIndex].vinilos);
+            if (inventario[generoIndex].vinilos < 0) {
+                printf("No se debe ingresar números negativos. Intente nuevamente.\n");
+            }
+        } while (inventario[generoIndex].vinilos < 0);
+
+        do {
+            printf("Cantidad de CDs (actual: %d): ", inventario[generoIndex].cds);
+            scanf("%d", &inventario[generoIndex].cds);
+            if (inventario[generoIndex].cds < 0) {
+                printf("No se debe ingresar números negativos. Intente nuevamente.\n");
+            }
+        } while (inventario[generoIndex].cds < 0);
+
+        do {
+            printf("Cantidad de cassettes (actual: %d): ", inventario[generoIndex].cassettes);
+            scanf("%d", &inventario[generoIndex].cassettes);
+            if (inventario[generoIndex].cassettes < 0) {
+                printf("No se debe ingresar números negativos. Intente nuevamente.\n");
+            }
+        } while (inventario[generoIndex].cassettes < 0);
     } else {
-        printf("No valido.\n");
+        printf("Género no válido.\n");
     }
 }
+

@@ -1,7 +1,10 @@
 #ifndef LECTURA_H
 #define LECTURA_H
 
-int leerEnteroPositivo(const char* mensaje);
-int leerEntero(const char* mensaje);
+#include "operaciones.h"
 
-#endif // LECTURA_H
+void mostrarInventario(Inventario inventario[MAX_GENEROS]);
+void ingresarInventario(Inventario inventario[MAX_GENEROS]);
+
+#endif 
+
